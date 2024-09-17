@@ -147,6 +147,7 @@ Note : MongoDB provides a unique ID (\_id) to each document to identify it by de
 
 => Show all data in the collection.
 -> db.collection-name.find(); -> return array of objects (documents) as output.
+-> db.collection-name.findOne(); -> return a single object, without parameter it return the first document in the collection.
 
 > When to use quotes and when not to?
 
@@ -184,9 +185,204 @@ Note : MongoDB provides a unique ID (\_id) to each document to identify it by de
 
 # Read Operations in MongoDB
 
-> Reading Documents in MongoDB
+> Finding Documents in MongoDB
+> Importing / Exporting JSON in MongoDB
 > Comparison Operators
+> Cursors in MongoDB
 > Logical Operators
+> Complex Expressions
+> Elements Operators
+
+> Finding Documents in MongoDB
+
+-> db.collection-name.find({key : value}) -> returns multiple documents satisfying the filter ({key : value}) in argument.
+-> db.collection-name.findOne({key : value}) -> returns first document satisfying the filter ({key : value}) in argument.
+
+Note : At once only 21 documents are displayed. For next 21 documents type "it".
+
+> Importing / Exporting JSON in MongoDB
+
+=> mongoimport and mongoexport are command-line utilities that are a part of the MongoDB Database Tools. These tools are used for importing data into MongoDB (using mongoimport) and exporting data from MongoDB (using mongoexport).
+
+-> mongoimport jsonfile.json -d database-name -c collection-name (if data is not in array of object)
+-> mongoimport jsonfile.json -d database-name -c collection-name --jsonArray (if data is in array of object)
+
+=> Here, --jsonArray accepts the import of data expressed with multiple MOngoDB documents within a single JSON Array.
+=> Imports are limited to 16 MB or smaller
+
+-> mongoexport -d database-name -c collection-name -o path-to-destination\file-name.json
+
+> Comparison Operators
+
+===> Syntax -> db.collection-name.find({"fieldname" : {$operator : value}});
+
+=> $eq -> Equal to
+-> db.collection-name.find({"fieldname" : {$eq : value}});
+
+=> $ne -> Not Equal to
+-> db.collection-name.find({"fieldname" : {$ne : value}});
+
+=> $gt -> Greater than
+-> db.collection-name.find({"fieldname" : {$gt : value}});
+
+=> $lt -> Less than
+-> db.collection-name.find({"fieldname" : {$lt : value}});
+
+=> $gte -> Greater than and equal to
+-> db.collection-name.find({"fieldname" : {$gte : value}});
+
+=> $lte -> Less than and equal to
+-> db.collection-name.find({"fieldname" : {$lte : value}});
+
+=> $in -> In
+-> db.collection-name.find({"fieldname" : {$in : [value1, value2, value3, ...]}});
+
+=> $nin -> Not in
+-> db.collection-name.find({"fieldname" : {$nin : [value1, value2, value3, ...]}});
+
 > Cursors in MongoDB
 
-> Reading Documents in MongoDB
+1. Cursors in MOngoDB are used to efficiently retrieve large sets from queries, providing control over the data retrieval process.
+
+-> MOngoDB retrieves query results in batches using cursors.
+-> Cursors are a pointer to the result set in the server.
+-> Cursors are used to iterate through the query results.
+
+2. Automatic Batching
+
+-> MongoDB retrieves query results in batches not all at once.
+-> Default batch size is usually 101 documents (Shows only 21 documents at once).
+-> This improves memory efficiency and network usage.
+
+==> Cursor methods
+
+=> count()
+-> db.collection-name.find({"fieldname" : "value"}).count();
+
+=> limit()
+-> db.collection-name.find({"fieldname" : "value"}).limit(number-of-documents);
+
+=> skip()
+-> db.collection-name.find({"fieldname" : "value"}).skip(number-of-documents);
+
+=> sort()
+-> db.collection-name.find({"fieldname" : "value"}).sort({ fieldname : 1}); -> 1 for ascending
+-> db.collection-name.find({"fieldname" : "value"}).sort({ fieldname : -1}); -> -1 for descending
+
+==> Cursor methods (Caveats)
+
+=> Performance Implications
+
+-> skip() can be inefficient for large offsets.
+-> Using sort() on large result sets may impact performance.
+
+=> User with Caution
+
+-> Be cautious when using limit() adn skip() on large collections.
+-> Consider using indexing to optimize query performance.
+
+> Logical Operators
+
+===> Syntax -> db.collection-name.find({$operator : [{condition 1}, {condition2}, ...]});
+
+==> $and -> And
+--> db.collection-name.find({$and : [{condition 1}, {condition2}, ...]});
+-> $and performs a logical AND operation an array of expressions, where all expressions must br true for the document to match.
+-> E.g. --> db.collection-name.find({$and : [{"fieldname" : {$conditional-operator : value}}, {"fieldname : "value"}, ...]});
+
+It could be done using db.collection-name.find({"fieldname" : {$conditional-operator : value}, "fieldname : "value", ...});
+Then, why to use this complex method?
+-> In MongoDB, when we provide multiple fields within a single query document, MongoDB treats it as an implicit AND operation.
+-> So if we do or not, it works the same way but just for AND. For other operators, we have to follow the previous approach only.
+
+==> $or -> Or
+--> db.collection-name.find({$or : [{condition 1}, {condition2}, ...]});
+-> $or performs a logical OR operation on an array of expressions, where any one of the expressions must be true for the document to match.
+
+==> $nor -> Nor
+-> db.collection-name.find({$nor : [{condition 1}, {condition2}, ...]});
+-> $nor performs a logical NOR operation in an array of expressions, where none of the expressions must be true for the document to match.
+
+==> $not -> Not
+-> db.collection-name.find({fieldname : {$not : {operator : value}}});
+
+> Complex Expressions
+
+=> The $expr operator allows using aggregation expressions within a query.
+=> Useful when you need to compare fields from the same document in a more complex manner.
+
+=> Syntax -> db.collection-name.find({$expr : {"$field", "value"}});
+
+=> E.g. -> db.collection-name.find({$expr : {$conditional-operator : [{$arithmetic-operator : ["$fieldname", "value"]}, "$targetfield"]}})
+
+Here, arithmetic-operator can be $add or $sub or $multiply or $divide.
+
+> Elements Operators
+
+==> $exists
+=> $exists matches documents that have a specific field, regardless of its value.
+-> db.collection-name.find({"fieldname" : {$exists : boolean}});
+
+==> $type
+=> $type matches documents based on BSON data type of a field.
+-> db.collection-name.find({"fieldname" : {$type : "bson-data-type"}});
+
+Note : We can use BSON type values as well instead of writing the complete name of the type. The numbers are listed below that can be used.
+
+1. Double
+2. String
+3. Object
+4. Array
+5. Binary Data
+6. Undefined
+7. Object id
+8. Boolean (bool)
+9. Date
+10. Null
+11. Regular Expression
+12. Javascript code
+13. Symbol
+14. Javascript code with scope
+15. 64-bit integer
+
+-> db.collection-name.find({"fieldname" : {$type : "bson-data-type-number"}});
+-> This is also valid.
+
+==> $size
+=> $size matches documents where the size of an array field matches a specified value.
+-> db.collection-name.find({"fieldname" : {$size : array-length}});
+
+# Projection
+
+=> db.collection-name.find({condition}, {"fieldname1" : 1, "fieldname2": 1, ...})
+
+-> To include specific fields, use projection with value of 1 for the fields you want.
+-> To exclude fields, use projection with a value of 0 for the fields you want to exclude.
+-> You cannot include and exclude fields simultaneously in the same query projection.
+
+Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, ...}); this approach is not possible.
+-> You can either use inclusion or exclusion, not both.
+-> There is only one exception i.e. \_id.
+--> db.collection-name.find({condition}, {"fieldname1" : 1, \_id : 0})
+-> Only this valid as id is not created by us, it is created by MongoDB implicitly so we can choose to omit it.
+
+# Embedded Documents
+
+-> Query documents inside embedded documents using dot notation (valid for both object and array).
+-> db.collection-name.find({"parent.child" : "value"})
+
+> $all
+
+=> The $all operator selects tge documents where the value of a field is in array that contains all the specified elements.
+-> db.collection-name.find({"fieldname" : {$all : ["value1", "value2", ...]}})
+
+> $elemMatch
+=> The $elemMatch operator matches documents that contain an array field with at least one element that matches all the specified query criteria.
+-> db.collection-name.find({"fieldname" : {$elemMatch : ["value1", "value2", ...]}})
+
+# Update operations in MongoDB
+
+1. updateOne() and updateMany()
+2. Removing and renaming fields
+3. Adding, removing items from array
+4. Updating embedded documents
