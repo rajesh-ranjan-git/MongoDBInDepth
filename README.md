@@ -244,7 +244,7 @@ Note : At once only 21 documents are displayed. For next 21 documents type "it".
 
 1. Cursors in MOngoDB are used to efficiently retrieve large sets from queries, providing control over the data retrieval process.
 
--> MOngoDB retrieves query results in batches using cursors.
+-> MongoDB retrieves query results in batches using cursors.
 -> Cursors are a pointer to the result set in the server.
 -> Cursors are used to iterate through the query results.
 
@@ -287,7 +287,7 @@ Note : At once only 21 documents are displayed. For next 21 documents type "it".
 
 ==> $and -> And
 --> db.collection-name.find({$and : [{condition 1}, {condition2}, ...]});
--> $and performs a logical AND operation an array of expressions, where all expressions must br true for the document to match.
+-> $and performs a logical AND operation an array of expressions, where all expressions must be true for the document to match.
 -> E.g. --> db.collection-name.find({$and : [{"fieldname" : {$conditional-operator : value}}, {"fieldname : "value"}, ...]});
 
 It could be done using db.collection-name.find({"fieldname" : {$conditional-operator : value}, "fieldname : "value", ...});
@@ -408,7 +408,7 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
 -> db.collection-name.deleteOne({filter});
 -> db.collection-name.deleteMany({filter});
 
-# Indexes in MongoDB
+# Indexing in MongoDB
 
 1. What are Indexes?
 2. Benefits of Indexes
@@ -431,9 +431,63 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
 -> Improved Aggregation : Aggregation operations become more efficient with optimized indexes.
 -> Indexing on Multiple Fields : Complex queries can be executed efficiently by utilizing multiple fields in indexes.
 
-==> explain() method gives information or metadata about the query performed. Use this to understand query execution in details.
-==> explain("executionStats) method gives extra information about execution of the query. Use it get time taken for query to execute.
+==> explain() method gives information or metadata about the query performed. Use this to understand query execution in detail.
+==> explain("executionStats") method gives extra information about execution of the query. Use it get time taken for query to execute.
 
 > Managing Indexes
 
--> db.collection-name.createIndex({ field : 1}); -> 1 for storing index in ascending order and -1 for descending order
+-> db.collection-name.createIndex({"fieldName" : 1}); -> 1 for storing index in ascending order and -1 for descending order
+-> db.collection-name.getIndexes(); -> \_id is default unique index.
+-> db.collection-name.dropIndex({"fieldName" : 1}); -> to delete index.
+-> db.collection-name.dropIndex("index-name");
+
+=> db.collection-name.createIndex({"fieldName" : 1}, {unique : true}); -> If we want to restrict from entering duplicate data.
+
+> When not to use Indexes?
+
+=> Indexes on rarely used fields -> Indexing fields that are seldom used in queries can consume unnecessary space and resources.
+=> Balancing Act -> Indexing requires disk space and memory. Over-indexing can lead to resource strain and impact overall performance.
+=> Indexing Small Collections -> In smaller collections, the cost of index maintenance might outweigh the benefits gained from querying.
+
+# Aggregation in MongoDB
+
+> What is aggregation?
+
+=> Definition : Aggregation is the process of performing transformations on documents and combining them to produce computed results.
+=> Pipelining Stages : Aggregations consists of multiple pipeline stages, each performing a specific operation on the input data.
+=> Benefits
+-> Aggregating Data : Complex calculations and operations are possible.
+-> Advanced Transformations : Data can be combined, reshaped, and computed for insights.
+-> Efficient Processing : Aggregation handles large datasets efficiently.
+
+=> $match -> The $match stage is similar to query used as the first argument in find(). It filters documents based on specified conditions.
+-> db.collection-name.aggregate([ {$match : {<query>}}]);
+
+=> $group -> The $group stage groups documents by specified fields and performs aggregate operations on grouped data.
+-> db.collection-name.aggregate([ {$group : {\_id : {<expression>}, <field1> : {<accumulator1> : <expression>}, ...}}]);
+
+=> $sort -> db.collection-name.aggregate([{$sort : {<field> : <order>}}]);
+
+=> $project -> The $project stage reshapes documents, includes or excludes fields, and performs operations on fields.
+-> db.collection-name.aggregate([ {$project : { <field1> : <expression>, ...}}]);
+-> $sum, $subtract, $multiply, $avg etc. are types of expression operator.
+
+=> $push -> The $push stage adds elements to an array field within documents.
+-> db.collection-name.aggregate([ {$push : <expression>}]);
+
+=> $unwind -> The $unwind stage deconstructs an array field and produces multiple documents.
+-> db.collection-name.aggregate([ {$unwind : <array>}]);
+
+=> $addToSet -> The #addToSet stage adds elements to an array field while preventing duplicates.
+-> db.collection-name.aggregate([ {$addToSet : <field>}]);
+
+=> $size -> The $size stage calculates the length of an array field.
+-> db.collection-name.aggregate([ {$size : <field>}]);
+-> This cannot be used inside $group stage but can be used with other aggregation stages.
+
+=> $limit and $skip -> The $limit and $skip stages are useful for pagination, limiting and skipping results.
+-> db.collection-name.aggregate([ {$limit : <value>}]);
+-> db.collection-name.aggregate([ {$skip : <value>}]);
+
+=> $filter -> The $filter stage filters elements of an array based on specified conditions.
+-> db.collection-name.aggregate([ {$project : {<field> : {$filter : {input : "$<array>", as : "<variable>", cond : <expression>}}}}]);
