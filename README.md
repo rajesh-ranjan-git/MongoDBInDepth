@@ -384,5 +384,56 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
 
 1. updateOne() and updateMany()
 2. Removing and renaming fields
-3. Adding, removing items from array
-4. Updating embedded documents
+3. Updating arrays and embedded documents
+4. Delete operations
+
+> updateOne() and updateMany()
+
+-> db.collection-name.updateOne( {filter}, {$set: {"existingField" : "newValue", "newField" : "new value", ...}});
+-> db.collection-name.updateMany( {filter}, {$set: {"existingField" : "newValue", ...}});
+
+> Removing and renaming fields
+
+->db.collection-name.updateOne/updateMany({filter}, {$unset: {"fieldName": 1}});
+->db.collection-name.updateOne/updateMany({filter}, {$rename: {"oldFieldName": "newFieldName}});
+
+> Updating arrays and embedded documents
+
+-> db.collection-name.updateOne/updateMany({filter}, {$push : {arrayFiled : "new element"}});
+-> db.collection-name.updateOne/updateMany({filter}, {$pop : {arrayFiled : "value"}});
+-> db.collection-name.updateOne/updateMany({filter}, {$set : {"arrayFiled.$.text" : "Updated text"}});
+
+> Delete operations -> To delete documents in MongoDB
+
+-> db.collection-name.deleteOne({filter});
+-> db.collection-name.deleteMany({filter});
+
+# Indexes in MongoDB
+
+1. What are Indexes?
+2. Benefits of Indexes
+3. Managing Indexes
+4. Unique, Text Index
+5. When not to use Indexes?
+
+> What are Indexes?
+
+=> Indexes are specialized data structures that optimize data retrieval speed in MongoDB
+
+-> Indexes store a fraction of data in a more searchable format.
+-> They enable MongoDB to locate data transfer during queries.w
+-> Indexes are separate from collections and multiple indexes can exist per collection.
+
+> Benefits of Indexes
+
+-> Faster Querying : Indexes drastically accelerate data retrieval, particularly for large collections.
+-> Efficient Sorting : facilitate rapid sorting based on specific fields.
+-> Improved Aggregation : Aggregation operations become more efficient with optimized indexes.
+-> Indexing on Multiple Fields : Complex queries can be executed efficiently by utilizing multiple fields in indexes.
+
+==> explain() method gives information or metadata about the query performed. Use this to understand query execution in details.
+==> explain("executionStats) method gives extra information about execution of the query. Use it get time taken for query to execute.
+
+> Managing Indexes
+
+-> db.collection-name.createIndex({ field : 1}); -> 1 for storing index in ascending order and -1 for descending order
