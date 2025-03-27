@@ -491,3 +491,94 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
 
 => $filter -> The $filter stage filters elements of an array based on specified conditions.
 -> db.collection-name.aggregate([ {$project : {<field> : {$filter : {input : "$<array>", as : "<variable>", cond : <expression>}}}}]);
+
+# Interview Questions
+
+1.  What is MongoDB?
+
+    > MongoDB is NoSQL Database which is designed to handle structured, semi-structured as well as non-structured data. It handles data in the BSON format, documents and collections.
+
+2.  What is the difference between NoSQL and RDBMS?
+
+    > In RDBMS, records are stored in rows and columns in a table where as in NoSQL, every record is stored in documents similar to a row in RDBMS which looks like a Javascript object (In BSON format) and a all the documents are stored in a collection similar to tables in RDBMS.
+    > RDBMS is designed to handle structured data with predefined and fixed schemas. NoSQL database is designed to handled structured, semi-structured and non-structured data with no fixed schema.
+    > RDBMS uses relational model where data is stored in tables with rows and columns. NoSQL databases uses a variety of flexible data models, such as document oriented, column oriented, graph oriented etc. MongoDB is document which the most used NoSQL Database.
+
+3.  When to use RDBMS and when to use NoSQL DB in your applications?
+
+    > RDBMS is better for application which required high data integrity and complex transactions (ACID) such as finance, banking, e-commerce applications. As it is not possible to feed invalid data in RDBMS databases due to datatype constraints. NoSQL databases are best for handling large volume of data with high read-write operations such as IOT, gaming applications, social media applications.
+
+4.  What are documents and collections in NoSQl?
+
+    > A Document is a semi-structured data structure (XML, JSON format) that stores information in a NoSQL database. It is similar to a row in a table in an RDBMS.
+    > A Collection is a group of documents that are stored together in a NoSQL Database. It is similar to a table in an RDBMS.
+
+5.  What are CRUD operations in MongoDB?
+
+    > CRUD is Create Read Update Delete
+
+6.  How to establish connection with MongoDB from Node.js?
+
+    > MongoDB can be connected from Node by calling the connect() method of MongoClient class.
+
+    1.  Install MongoDB
+        ## mongodb: npm install mongodb
+    2.  Import mongodb
+    3.  Create a new MongoClient using connection URI
+    4.  Connect to MongoDB Server
+    5.  return the database object
+    6.  Throw error if connection fails
+        const { MongoClient } = require("mongodb);
+        const uri = "mongodb://127.0.0.1:27017/myDB";
+        const client = new MongoClient(uri);
+        async function connectToMongoDB() {
+        try {
+        await client.connect();
+        console.log("Connected to MongoDB");
+        return client.db();
+        } catch (error) {
+        throw error;
+        }}
+    7.  Export the connect function
+        ## module.exports = connectToMongoDB;
+
+7.  What are query operators in MongoDB?
+
+    > Query operators are special keywords or symbols used to perform operations like comparison, logical operations in queries.
+    > e.g. $lt, $gt, $lte, $gte etc.
+
+8.  What is projection in MongoDB and how to implement it?
+
+    > Projection is a way of specifying which fields should be returned in the query results.
+    > Projection can be implemented by using project method.
+    > e.g const data = collection.find({}).project({name: 1});
+    > This will always include \_id field as wel
+    > If need to exclude \_id, const data = collection.find({}).project({name: 1, \_id: 0});
+
+9.  What are indexes in MongoDB? How indexing make data retrieval faster?
+
+    > Indexes are data structures that improve the speed of data retrieval operations on collections.
+    > Before creating index, data is directly received, after creating index, data is retrieved via indexes (index tree is created).
+
+10. What is mongoose? What are the advantages of using it?
+
+    > Mongoose is an Object Data Modelling (ODM) library for MongoDB and NodeJS that helps to connect to mongodb and perform operations seamlessly. It provides schema-based solution to model application data.
+    > Features : Data Validation, Middleware support, define relationships between collections.
+
+11. What is the role of schema in mongoose? How to define it?
+    > Define Mongoose schema
+         const mongoose = require("mongoose");
+         const userSchema = new mongoose.schema({
+         name: {
+         type: String,
+         required: true,
+         minlength: 3,
+         },
+         email: {
+         type: String,
+         required: true,
+         },
+         age: Number,
+         })
+    > Create Mongoose model from schema
+         const user = mongoose.model("User", userSchema);
