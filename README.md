@@ -540,7 +540,7 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
         throw error;
         }}
     7.  Export the connect function
-        ## module.exports = connectToMongoDB;
+        module.exports = connectToMongoDB;
 
 7.  What are query operators in MongoDB?
 
@@ -566,7 +566,11 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
     > Features : Data Validation, Middleware support, define relationships between collections.
 
 11. What is the role of schema in mongoose? How to define it?
+
+    > A schema in Mongoose defines the structure, validation rules, and behavior of MongoDB documents, ensuring data consistency and integrity.
+
     > Define Mongoose schema
+
          const mongoose = require("mongoose");
          const userSchema = new mongoose.schema({
          name: {
@@ -580,5 +584,37 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
          },
          age: Number,
          })
+
     > Create Mongoose model from schema
-         const user = mongoose.model("User", userSchema);
+
+         const User = mongoose.model("User", userSchema);
+         module.exports = User;
+
+12. Can we define our own find function? How?
+
+    > Yes, we can by creating function and passing the query parameters with what you need to find and the projection to choose what to you need to get from the results.
+
+13. What is the difference between find and findOne function?
+
+    > find function checks for all the records to find the result which matches the query parameters where as findOne return the first record that matches the query parameter.
+
+14. How do we scale up documents using mongodb?
+
+    > There are 2 types of scaling horizontal scaling or vertical scaling. Horizontal scaling means to add more machines to distribute data and store the data at multiple storage whereas vertical scaling means to increase the capacity of the single machine to accommodate large data.
+    > Horizontal scaling is easier ans efficient as we do not have less downtime as installing new device would not impact the storage but vertical scaling involves upgrading the machine (increasing RAM, faster CPU, large storage) which incurs more downtime.
+
+    > Two main methods:
+
+    1. Sharding:
+       Concept: Distributes data across multiple servers (shards) based on a shard key, allowing for virtually unlimited storage capacity.
+       How it works: A mongos (query router) acts as an interface between client applications and the sharded cluster, routing queries to the appropriate shards.
+       Components: Shards (replica sets), mongos, and config servers.
+       Benefits: Increased storage capacity, improved performance, and better availability.
+
+    2. Replication:
+       Concept: Creating multiple copies of your data on different servers (replicaset) to ensure high availability and fault tolerance.
+       How it works: Data is replicated across multiple nodes, and one node is designated as the primary, while others are secondaries.
+       Benefits: Increased availability and data resilience.
+
+15. How can we perform transactions in MongoBD?
+    > A transaction in database means that either an operation should complete or it should not. E.g if we are making a payment then either the money will be deducted and received at the other end or the transaction will not happen at all. If anything happens in between then the operation will be rolled back. There are 3 stages in transaction :
