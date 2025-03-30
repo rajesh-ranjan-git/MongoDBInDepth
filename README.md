@@ -613,7 +613,7 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
        Benefits: Increased storage capacity, improved performance, and better availability.
 
     2. Replication:
-       Concept: Creating multiple copies of your data on different servers (replicaset) to ensure high availability and fault tolerance.
+       Concept: Creating multiple copies of your data on different servers (replica set) to ensure high availability and fault tolerance.
        How it works: Data is replicated across multiple nodes, and one node is designated as the primary, while others are secondaries.
        Benefits: Increased availability and data resilience.
 
@@ -635,7 +635,20 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
 
 17. What is aggregation framework in MongoDB?
 
-    > It helps to perform multiple operation on the database like perform projection, sorting etc. It uses the concept of pipelines where output of one query acts as input to another pipeline and finally gives use the computed data. We can also perform operation on multiple collections as an alternative to join operation in relational database.
+    > MOngoDB aggregation operations act on groups of values from multiple documents, perform operations on the grouped values and return a single computed result.
+    > It helps to perform multiple operation on the database like perform projection, sorting etc. It uses the concept of pipelines where output of one query acts as input to another pipeline and finally gives us the computed data. We can also perform operation on multiple collections as an alternative to join operation in relational database.
+
+    > 3 ways of performing aggregation :
+
+    => Aggregation Pipeline -> Multiple documents enter the pipeline and aggregated result is returned after processing.
+    => Map Reduce Operation -> Performing map operation on each document and later reducing the output of map operations to combine the result.
+    => Single purpose Aggregation -> It aggregate all the documents from a single collection.
+
+    > 3 aggregation pipeline methods or phases :
+
+    => match -> To filter the data based on the conditions
+    => group -> aggregation phase
+    => sort -> Finally sorting is done (asc or desc)
 
 18. What is a storage engine in MongoDB?
 
@@ -664,7 +677,7 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
 
 21. What are some alternatives NoSQL databases to MongoDB?
 
-    > CassandraDB, BynamoDB, Apache HBase, Redis, Neo4j
+    > CassandraDB, DynamoDB, Apache HBase, Redis, Neo4j
 
 22. What are different types of NoSQL Databases?
 
@@ -695,4 +708,12 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
     > When updates are likely to happen at the same time, you can use multi-documents transactions, a single document transaction would be more performant.
     > When the field is rarely updated.
 
-27.
+27. What is the use of Capped Collection?
+
+    > Capped Collections are fixed-sized collections that supports high-throughput operations that insert, retrieve, and delete documents based in insertion order.
+
+28. How can you store images, videos and other large files (>16 MB)?
+    > MongoDB supports storing files <16 MB only. For files more than 16 MB it uses a special functionality called as GridFS.
+    > GridFS is driver specification for uploading and retrieval of MongoDB files larger than 16 MB.
+    > GridFS divides large files into equal chunks and stores them as a separate documents (e.g. audio, video, images etc.).
+    > All the images, video, audio files are streamed as chunks and each chunk is of size 255KB or less.
