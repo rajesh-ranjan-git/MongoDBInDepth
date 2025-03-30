@@ -773,7 +773,7 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
     => Mongos - Mongos provide an interface between the client applications and the mongo cluster. Mongos acts as a query router to the sharded cluster.
     => Config Servers - Config servers store metadata and configuration settings for the MongoDB sharded cluster.
 
-37. Th Join clause is a key feature of Relational DB. What is the MongoDB equivalent if any and are there any limitations?
+37. The Join clause is a key feature of Relational DB. What is the MongoDB equivalent if any and are there any limitations?
 
     > $lookup operator is the equivalent of Join in MongoDB
     > The $lookup operator has a significant disadvantage in that it does not work with sharded collections. It's worth noting that, rather than looking for a direct equivalent to Join, MongoDB developers often simply denormalize the data, eliminating the need for a Join equivalent.
