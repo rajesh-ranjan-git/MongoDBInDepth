@@ -98,6 +98,7 @@ Backend requests or send data from "MongoDB server" by connecting to it and Mong
 # Commands
 
 > Show database -> show dbs; or show databases;
+> Get current database name -> db.getName();
 > Create or switch to another database -> use database-name;
 > Delete database -> db.dropDatabase();
 > Show collections -> show collections;
