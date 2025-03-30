@@ -602,7 +602,7 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
 14. How do we scale up documents using mongodb?
 
     > There are 2 types of scaling horizontal scaling or vertical scaling. Horizontal scaling means to add more machines to distribute data and store the data at multiple storage whereas vertical scaling means to increase the capacity of the single machine to accommodate large data.
-    > Horizontal scaling is easier ans efficient as we do not have less downtime as installing new device would not impact the storage but vertical scaling involves upgrading the machine (increasing RAM, faster CPU, large storage) which incurs more downtime.
+    > Horizontal scaling is easier and efficient as we do not have less downtime as installing new device would not impact the storage but vertical scaling involves upgrading the machine (increasing RAM, faster CPU, large storage) which incurs more downtime.
 
     > Two main methods:
 
@@ -617,5 +617,82 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
        How it works: Data is replicated across multiple nodes, and one node is designated as the primary, while others are secondaries.
        Benefits: Increased availability and data resilience.
 
-15. How can we perform transactions in MongoBD?
-    > A transaction in database means that either an operation should complete or it should not. E.g if we are making a payment then either the money will be deducted and received at the other end or the transaction will not happen at all. If anything happens in between then the operation will be rolled back. There are 3 stages in transaction :
+15. How can we perform transactions in MongoDB?
+
+    > A transaction in database means that either an operation should complete or it should not top provide consistency in database. E.g if we are making a payment then either the money will be deducted and received at the other end or the transaction will not happen at all. If anything happens in between then the operation will be rolled back.
+    > 2 APIs used for transaction : Core & Callback API
+    > Core API : Similar like Relational Database (Start transaction, commit transaction), we will define the start of the transaction and the end of transaction by commit transaction. If any happens in between we have roll back the transaction and there will be no change in the database. It is generally used where we are performing more than 1 database operations.
+    > Callback API :
+
+16. What is a replica set in MongoDB and what are primary and secondary replica sets?
+
+    > This is creating multiple copies of the database at multiple locations to ensure faster availability and also helps in disaster management. Lets consider if a data center or server goes down then all thr connection will still get the data from the replicas and will not have to face downtimes.
+    > MongoDB manages replication using Replica Sets, which are collections of related MOngoDB nodes.
+    > A replica set require a minimum of 3 MongoDB nodes.
+    > One of the nodes will be considered as primary node that receives all the write operations.
+    > The others are secondary nodes will replicate data from the primary node.
+    > A failed node is recovered, works as a secondary node again.
+
+17. What is aggregation framework in MongoDB?
+
+    > It helps to perform multiple operation on the database like perform projection, sorting etc. It uses the concept of pipelines where output of one query acts as input to another pipeline and finally gives use the computed data. We can also perform operation on multiple collections as an alternative to join operation in relational database.
+
+18. What is a storage engine in MongoDB?
+
+    > Storage engine is component in MongoDB which is responsible for managing data on how is it stored but in memory and disk.
+    > Types of storage engines : WiredTiger (the default and recommended) and In-Memory (available in MongoDB Enterprise)
+
+    => WiredTiger:
+    -> Is the default storage engine and is recommended for new deployments.
+    -> Provides document-level concurrency, check-pointing, and compression.
+    -> In MongoDB Enterprise, WiredTiger also supports Encryption at Rest.
+    -> WiredTiger is MongoDB's default engine, seamlessly merging document-level concurrency for high throughput, advanced compression techniques for optimized storage, and an in-memory architecture for rapid data access.
+
+    => In-Memory:
+    -> An In-Memory storage engine is available in MongoDB Enterprise.
+    -> Secondary members can use either the WiredTiger storage engine or the in-memory storage engines.
+
+    => The choice of storage engine can impact application performance, so it's important to choose the right one for your specific workload.
+
+19. How to condense large volumes of data in MongoDB?
+
+    > Using aggregation
+
+20. How to use text search in MongoDB?
+
+    > Using indexing
+
+21. What are some alternatives NoSQL databases to MongoDB?
+
+    > CassandraDB, BynamoDB, Apache HBase, Redis, Neo4j
+
+22. What are different types of NoSQL Databases?
+
+    > Key Value - Redis, Riak => Usage : Briskly changing data and high availability
+    > Column Based - Cassandra, Apache HBase => Usage : Read/Write extensions
+    > Document Based - MongoDB, CouchBase => Usage L Working with occasionally changing consistent data
+    > Graph Based - Neo4j, BigData => Usage : Spatial data storage
+
+23. How does MongoDB store data?
+
+    > MongoDB stores data as documents (specifically BSON documents) which are gathered together in collections.
+
+24. What are the different data models in MongoDB?
+
+    > 2 Types :
+    > => Embedded Data Model : Embedded documents capture relationships between data by storing related data in a single document structure.
+    > => Reference Data Model : Reference model stores the relationships between data by including links or references from one documents to another.
+
+25. What is Sharding in MongoDB?
+
+    > Sharding is a method of distributing data across multiple databases. MongoDB supports deployments with large data sets and high throughput operations via Sharding.
+    > Add more capacity to a single server, such as adding more memory and processing units or adding more RAM on a single server.
+
+26. When should we embed one document with another?
+
+    > When the relationship is one-to-few (not many, not unlimited). For unlimited use case, you should start considering separating sub-documents into another collection.
+    > When retrieval is likely to happen together, that will improve performance.
+    > When updates are likely to happen at the same time, you can use multi-documents transactions, a single document transaction would be more performant.
+    > When the field is rarely updated.
+
+27.
