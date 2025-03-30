@@ -8,7 +8,7 @@ It was designed for flexibility, scalability and performance in handling unstruc
 
 # About MongoDB
 
-It was created by a company cal;led "10gen", which is now know as MongoDB Inc. The company was founded by Eliot Horowitz and Dwite Merriman in 2007. The first version of MongoDB was release in 2009.
+It was created by a company called "10gen", which is now know as MongoDB Inc. The company was founded by Eliot Horowitz and Dwite Merriman in 2007. The first version of MongoDB was release in 2009.
 
 # Why name is MongoDB?
 
@@ -165,13 +165,13 @@ Note : MongoDB provides a unique ID (\_id) to each document to identify it by de
    -> Default behavior is ordered, where MongoDB stops whenever it encounters first error while inserting documents.
    db.collection-name.insertMany([ doc1, doc2, doc3, ...]);
 
-   -> If it encounters while inserting doc2, it will stope there. It will insert doc1 fine but will not reach to doc3.
+   -> If it encounters any error while inserting doc2, it will stop there. It will insert doc1 fine but will not reach to doc3.
 
 2. Unordered Inserts
-   -> When executing bulk write operations with unordered flag, MongoDB continues processing after encountering and error.
+   -> When executing bulk write operations with unordered flag, MongoDB continues processing after encountering an error.
    db.collection-name.insertMany([ doc1, doc2, doc3, ...], {ordered : false});
 
-   -> -> If it encounters while inserting doc2, it will not stop there. It will insert doc1 and doc3 as well and will show the error for doc2.
+   -> If it encounters any error while inserting doc2, it will not stop there. It will insert doc1 and doc3 as well and will show the error for doc2.
 
 > Case sensitivity in MongoDB
 
@@ -276,9 +276,9 @@ Note : At once only 21 documents are displayed. For next 21 documents type "it".
 -> skip() can be inefficient for large offsets.
 -> Using sort() on large result sets may impact performance.
 
-=> User with Caution
+=> Use with Caution
 
--> Be cautious when using limit() adn skip() on large collections.
+-> Be cautious when using limit() and skip() on large collections.
 -> Consider using indexing to optimize query performance.
 
 > Logical Operators
@@ -373,7 +373,7 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
 
 > $all
 
-=> The $all operator selects tge documents where the value of a field is in array that contains all the specified elements.
+=> The $all operator selects the documents where the value of a field is in array that contains all the specified elements.
 -> db.collection-name.find({"fieldname" : {$all : ["value1", "value2", ...]}})
 
 > $elemMatch
