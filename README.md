@@ -713,7 +713,47 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
     > Capped Collections are fixed-sized collections that supports high-throughput operations that insert, retrieve, and delete documents based in insertion order.
 
 28. How can you store images, videos and other large files (>16 MB)?
+
     > MongoDB supports storing files <16 MB only. For files more than 16 MB it uses a special functionality called as GridFS.
     > GridFS is driver specification for uploading and retrieval of MongoDB files larger than 16 MB.
     > GridFS divides large files into equal chunks and stores them as a separate documents (e.g. audio, video, images etc.).
     > All the images, video, audio files are streamed as chunks and each chunk is of size 255KB or less.
+
+29. What are some utilities for Backup and Restoring in MongoDB?
+
+    > The MongoDB shell does not include export, import, duplicate, or retrieval operation. However, MongoDB provides the utilities to take backup and perform the restore operations.
+
+    => Mongoimport
+    => Mongoexport
+    => Mongodump (Most common, it creates a binary backup of the database, and it is the preferred method of dumping data from source mongodb deployment )
+    => Mongorestore (To restore the data that was dumped by mongodump)
+
+30. Explain about Map Reduce process in MongoDB?
+
+    > Map-reduce is a data processing paradigm for condensing large volumes of data into useful aggregated results.
+
+31. How does MongoDB ensure High availability of data?
+
+    > Using Sharding and Replica Sets
+
+32. What is the role profiler in MongoDB?
+
+    > Database profiler is used to collect information regarding the queries which are executed on an individual database instance.
+    > It allows us to collect performance data about operations occurring on a MongoDB instance.
+
+33. Can we use Regular expressions in MongoDB?
+
+    > Regular expressions are used to match patterns in a document just like finding patters in a SQL table.
+    > Provides patters or a sequence of characters for matching text and define search pattern.
+    > Retrieving an unidentified field in a document easily.
+    > Query databases to find a smaller subset of data within a Collection.
+    > $regex operator provides regular expression capabilities for pattern matching strings in the queries.
+    => db.collectionName.find({field : {$regex : /pattern/}})
+    > => db.collectionName.find({field : {$regex : "^pattern$"}})
+    > => db.collectionName.find({field : {$regex : /pattern/, $options : "s/x/i/m"}})
+
+34. How do you search for documents in which a specific field has one or more values?
+
+    > $in : [value1, value2]
+
+35.
