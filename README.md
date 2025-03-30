@@ -747,13 +747,42 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
     > Provides patters or a sequence of characters for matching text and define search pattern.
     > Retrieving an unidentified field in a document easily.
     > Query databases to find a smaller subset of data within a Collection.
+
     > $regex operator provides regular expression capabilities for pattern matching strings in the queries.
+
     => db.collectionName.find({field : {$regex : /pattern/}})
-    > => db.collectionName.find({field : {$regex : "^pattern$"}})
-    > => db.collectionName.find({field : {$regex : /pattern/, $options : "s/x/i/m"}})
+    => db.collectionName.find({field : {$regex : "^pattern$"}})
+    => db.collectionName.find({field : {$regex : /pattern/, $options : "s/x/i/m"}})
 
 34. How do you search for documents in which a specific field has one or more values?
 
     > $in : [value1, value2]
 
-35.
+35. Both writes and reads becomes faster when you ad more slaves to replica sets. Is it true ?
+
+    > False
+    > A replica sets can only have one primary at any particular time (one master) with the other nodes being secondaries (slaves).
+    > All write operations are performed only on master. Read operations, on the th other hand, can be performed on any instance, slave or master. As a result, adding more slaves to a replica set accelerates only reads.
+
+36. What is a Shard key and mention the components of MongoDB Sharded Cluster?
+
+    > Shard key is used by MongoDB to distribute the documents of collection across shards.
+    > Components of MongoDB Sharded Cluster :
+
+    => Shard - Shard contains a subset of sharded data. Each shard can be deployed as replica set.
+    => Mongos - Mongos provide an interface between the client applications and the mongo cluster. Mongos acts as a query router to the sharded cluster.
+    => Config Servers - Config servers store metadata and configuration settings for the MongoDB sharded cluster.
+
+37. Th Join clause is a key feature of Relational DB. What is the MongoDB equivalent if any and are there any limitations?
+
+    > $lookup operator is the equivalent of Join in MongoDB
+    > The $lookup operator has a significant disadvantage in that it does not work with sharded collections. It's worth noting that, rather than looking for a direct equivalent to Join, MongoDB developers often simply denormalize the data, eliminating the need for a Join equivalent.
+    > In a nutshell, it performs an outer join to a collection in the same database to filter the documents from the joint collection for processing.
+    > $lookup operator adds a new array field to each input document and this new array field contains the matching documents from the joint collection.
+
+38. Mention some Pros and cons of normalizing data in MongoDB database.
+
+    > Updating documents is fast for normalized data and relatively slower for denormalized data. On the other hand, reading documents is fast in denormalized data and slower ion normalized.
+    > Denormalized data is harder to keep in sync and takes up more space.
+
+    > RDBMS have inherent support for normalization and allow data to be manages as a separate concern, whereas NoSQL DBMSes like MongoDB do not inherently support normalization.
