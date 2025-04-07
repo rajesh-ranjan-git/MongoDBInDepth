@@ -242,7 +242,7 @@ Note : At once only 21 documents are displayed. For next 21 documents type "it".
 
 > Cursors in MongoDB
 
-1. Cursors in MOngoDB are used to efficiently retrieve large sets from queries, providing control over the data retrieval process.
+1. Cursors in MongoDB are used to efficiently retrieve large sets from queries, providing control over the data retrieval process.
 
 -> MongoDB retrieves query results in batches using cursors.
 -> Cursors are a pointer to the result set in the server.
@@ -421,7 +421,7 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
 => Indexes are specialized data structures that optimize data retrieval speed in MongoDB
 
 -> Indexes store a fraction of data in a more searchable format.
--> They enable MongoDB to locate data transfer during queries.w
+-> They enable MongoDB to locate data transfer during queries.
 -> Indexes are separate from collections and multiple indexes can exist per collection.
 
 > Benefits of Indexes
@@ -618,7 +618,7 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
 
 15. How can we perform transactions in MongoDB?
 
-    > A transaction in database means that either an operation should complete or it should not top provide consistency in database. E.g if we are making a payment then either the money will be deducted and received at the other end or the transaction will not happen at all. If anything happens in between then the operation will be rolled back.
+    > A transaction in database means that either an operation should complete or it should not to provide consistency in database. E.g if we are making a payment then either the money will be deducted and received at the other end or the transaction will not happen at all. If anything happens in between then the operation will be rolled back.
     > 2 APIs used for transaction : Core & Callback API
     > Core API : Similar like Relational Database (Start transaction, commit transaction), we will define the start of the transaction and the end of transaction by commit transaction. If any happens in between we have roll back the transaction and there will be no change in the database. It is generally used where we are performing more than 1 database operations.
     > Callback API :
@@ -634,7 +634,7 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
 
 17. What is aggregation framework in MongoDB?
 
-    > MOngoDB aggregation operations act on groups of values from multiple documents, perform operations on the grouped values and return a single computed result.
+    > MongoDB aggregation operations act on groups of values from multiple documents, perform operations on the grouped values and return a single computed result.
     > It helps to perform multiple operation on the database like perform projection, sorting etc. It uses the concept of pipelines where output of one query acts as input to another pipeline and finally gives us the computed data. We can also perform operation on multiple collections as an alternative to join operation in relational database.
 
     > 3 ways of performing aggregation :
@@ -682,7 +682,7 @@ Note : db.collection-name.find({condition}, {"fieldname1" : 1, fieldname2 : 0, .
 
     > Key Value - Redis, Riak => Usage : Briskly changing data and high availability
     > Column Based - Cassandra, Apache HBase => Usage : Read/Write extensions
-    > Document Based - MongoDB, CouchBase => Usage L Working with occasionally changing consistent data
+    > Document Based - MongoDB, CouchBase => Usage : Working with occasionally changing consistent data
     > Graph Based - Neo4j, BigData => Usage : Spatial data storage
 
 23. How does MongoDB store data?
