@@ -4,7 +4,7 @@ MongoDB is an open-source, document oriented NoSQL Database Management system. I
 
 # Why MongoDB?
 
-It was designed for flexibility, scalability and performance in handling unstructured and semi structured data. It scales documents horizontally.
+It was designed for flexibility, scalability and performance in handling unstructured and semi-structured data. It scales documents horizontally.
 
 # About MongoDB
 
