@@ -21,7 +21,6 @@ Because it can handle "HUMONGOUS" data hence MongoDB.
 3. Suitable for applications with well-defined schemas and fixed data structures.
 4. E-Commerce platform, HR Management etc.
 5. E.g. MySQL, PostgreSQL, Oracle etc.
-
 6. NoSQL databases are non-relational databases.
 7. They provide flexibility in data storage, allowing varied data types and structures.
 8. It is schemaless.
